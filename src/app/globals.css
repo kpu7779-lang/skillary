@@ -1,0 +1,474 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans), "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
+  --font-mono: var(--font-geist-mono), "Sarasa Mono SC", "Noto Sans Mono CJK SC", monospace;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ============================================
+   AI Skills Marketplace — Premium Dark Theme
+   Inspired by: Linear / Vercel / Claude / Stitch
+   ============================================ */
+
+:root {
+  --radius: 0.75rem;
+
+  /* Light theme (kept for completeness, but site defaults to dark) */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+
+  /* Brand accent palette (shared between themes) */
+  --brand-violet: #7c5cff;
+  --brand-indigo: #5b7cff;
+  --brand-cyan: #2dd4bf;
+  --brand-pink: #ff6ad5;
+  --brand-amber: #ffb547;
+}
+
+.dark {
+  /* Pure-near-black surface, matches Stitch/Linear/Vercel */
+  --background: oklch(0.07 0.005 270);
+  --foreground: oklch(0.985 0.003 270);
+
+  /* Layered glass cards */
+  --card: oklch(0.13 0.008 270);
+  --card-foreground: oklch(0.985 0.003 270);
+
+  --popover: oklch(0.11 0.008 270);
+  --popover-foreground: oklch(0.985 0.003 270);
+
+  /* Primary = white-on-dark for buttons (Apple/Linear style) */
+  --primary: oklch(0.985 0.003 270);
+  --primary-foreground: oklch(0.13 0.008 270);
+
+  --secondary: oklch(0.18 0.008 270);
+  --secondary-foreground: oklch(0.985 0.003 270);
+
+  --muted: oklch(0.16 0.008 270);
+  --muted-foreground: oklch(0.68 0.01 270);
+
+  --accent: oklch(0.20 0.008 270);
+  --accent-foreground: oklch(0.985 0.003 270);
+
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.708 0 0);
+
+  --chart-1: oklch(0.627 0.265 303.9);
+  --chart-2: oklch(0.696 0.17 200);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.488 0.243 264.376);
+  --chart-5: oklch(0.645 0.246 16.439);
+
+  --sidebar: oklch(0.10 0.005 270);
+  --sidebar-foreground: oklch(0.985 0.003 270);
+  --sidebar-primary: oklch(0.985 0.003 270);
+  --sidebar-primary-foreground: oklch(0.13 0.008 270);
+  --sidebar-accent: oklch(0.18 0.008 270);
+  --sidebar-accent-foreground: oklch(0.985 0.003 270);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+    /* Slightly larger base for readability across all ages */
+    font-size: 16px;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "ss01", "cv11", "cv02";
+    letter-spacing: 0;
+    /* CJK characters don't need negative tracking; only Latin does */
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Apply negative tracking only to Latin-heavy headings */
+  h1, h2, h3 {
+    letter-spacing: -0.01em;
+  }
+
+  /* Selection */
+  ::selection {
+    background: rgba(124, 92, 255, 0.35);
+    color: #fff;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.16); background-clip: padding-box; border: 2px solid transparent; }
+}
+
+/* ============================================
+   Component utilities
+   ============================================ */
+
+@layer components {
+  /* Glass surface used across cards / panels */
+  .glass-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+  }
+  .glass-card-hover {
+    transition: border-color 200ms ease, background 200ms ease, transform 200ms ease;
+  }
+  .glass-card-hover:hover {
+    border-color: rgba(255,255,255,0.16);
+    background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.025) 100%);
+    transform: translateY(-2px);
+  }
+
+  /* Brand gradient text */
+  .brand-gradient-text {
+    background: linear-gradient(110deg, #fff 0%, #fff 35%, #c8b9ff 55%, #9ec5ff 75%, #7fe7d7 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Soft glow used behind hero / CTA */
+  .glow-violet {
+    background: radial-gradient(closest-side, rgba(124,92,255,0.55), rgba(124,92,255,0));
+    filter: blur(40px);
+  }
+  .glow-cyan {
+    background: radial-gradient(closest-side, rgba(45,212,191,0.45), rgba(45,212,191,0));
+    filter: blur(40px);
+  }
+  .glow-pink {
+    background: radial-gradient(closest-side, rgba(255,106,213,0.40), rgba(255,106,213,0));
+    filter: blur(40px);
+  }
+
+  /* Brand gradient button (used for primary CTA) */
+  .brand-gradient-bg {
+    background: linear-gradient(110deg, #7c5cff 0%, #5b7cff 50%, #2dd4bf 100%);
+  }
+
+  /* Hairline border helper */
+  .hairline {
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Subtle inner ring for chips */
+  .chip {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.72);
+  }
+
+  /* Form input — used across upload & search */
+  .input {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 0.625rem;
+    padding: 0.55rem 0.75rem;
+    font-size: 13px;
+    color: #fff;
+    outline: none;
+    transition: border-color 150ms ease, background 150ms ease;
+  }
+  .input::placeholder { color: rgba(255,255,255,0.30); }
+  .input:focus {
+    border-color: rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.05);
+  }
+}
+
+/* ============================================
+   Search Panel — large gradient input (Stitch style)
+   ============================================ */
+
+.search-panel {
+  background: linear-gradient(180deg,
+    #08080c 0%,
+    #15122e 42%,
+    #101420 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow:
+    0 40px 100px -20px rgba(0, 0, 0, 0.75),
+    0 12px 50px -12px rgba(30, 20, 60, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: border-color 250ms ease, box-shadow 250ms ease;
+}
+
+.search-panel:focus-within {
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 40px 100px -20px rgba(0, 0, 0, 0.75),
+    0 12px 50px -12px rgba(124, 92, 255, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.search-panel-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  resize: none;
+  width: 100%;
+}
+.search-panel-input::placeholder {
+  color: rgba(255, 255, 255, 0.28);
+}
+.search-panel-input::-webkit-scrollbar { width: 6px; }
+.search-panel-input::-webkit-scrollbar-track { background: transparent; }
+.search-panel-input::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.08);
+  border-radius: 6px;
+}
+
+/* ============================================
+   Dynamic Aurora Background (CSS-only)
+   Inspired by: Linear, Vercel, Stripe, Arc Browser
+   - Multi-layer flowing aurora ribbons
+   - Animated gradient mesh
+   - Subtle noise texture
+   - Dotted grid overlay
+   ============================================ */
+
+/* Layer 1: Deep base gradient */
+.aurora-base {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(60, 30, 120, 0.35), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 100%, rgba(20, 60, 100, 0.30), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 20% 100%, rgba(80, 20, 80, 0.25), transparent 60%),
+    #06060a;
+}
+
+/* Layer 2: Flowing aurora ribbons — top area */
+.aurora-ribbon-top {
+  position: absolute;
+  top: -20%;
+  left: -10%;
+  right: -10%;
+  height: 60%;
+  filter: blur(60px);
+  opacity: 0.6;
+  background:
+    radial-gradient(ellipse 40% 60% at 30% 50%, rgba(124, 92, 255, 0.55), transparent 70%),
+    radial-gradient(ellipse 35% 50% at 70% 40%, rgba(45, 212, 191, 0.40), transparent 70%),
+    radial-gradient(ellipse 30% 40% at 50% 60%, rgba(91, 124, 255, 0.35), transparent 70%);
+  animation: aurora-flow-1 22s ease-in-out infinite alternate;
+}
+
+/* Layer 3: Flowing aurora ribbons — bottom area */
+.aurora-ribbon-bottom {
+  position: absolute;
+  bottom: -15%;
+  left: -10%;
+  right: -10%;
+  height: 55%;
+  filter: blur(70px);
+  opacity: 0.5;
+  background:
+    radial-gradient(ellipse 45% 60% at 25% 50%, rgba(168, 85, 247, 0.50), transparent 70%),
+    radial-gradient(ellipse 40% 55% at 75% 60%, rgba(59, 130, 246, 0.45), transparent 70%),
+    radial-gradient(ellipse 35% 50% at 50% 40%, rgba(236, 72, 153, 0.30), transparent 70%);
+  animation: aurora-flow-2 28s ease-in-out infinite alternate;
+}
+
+/* Layer 4: Moving conic gradient mesh — subtle tech glow */
+.aurora-mesh {
+  position: absolute;
+  inset: -20%;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    rgba(124, 92, 255, 0.08) 60deg,
+    transparent 120deg,
+    rgba(45, 212, 191, 0.06) 180deg,
+    transparent 240deg,
+    rgba(91, 124, 255, 0.07) 300deg,
+    transparent 360deg
+  );
+  animation: aurora-rotate 60s linear infinite;
+  opacity: 0.8;
+}
+
+/* Layer 5: Subtle noise texture — adds film grain, kills banding */
+.aurora-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* Layer 6: Dotted grid — tech precision feel */
+.bg-grid-dots {
+  background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: -1px -1px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+}
+
+/* ===== Animations ===== */
+@keyframes aurora-flow-1 {
+  0% {
+    transform: translate3d(-3%, 0, 0) scale(1.05) rotate(0deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate3d(4%, -2%, 0) scale(1.15) rotate(2deg);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translate3d(2%, 1%, 0) scale(1.08) rotate(-1deg);
+    opacity: 0.55;
+  }
+}
+
+@keyframes aurora-flow-2 {
+  0% {
+    transform: translate3d(3%, 0, 0) scale(1.08) rotate(0deg);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate3d(-4%, 2%, 0) scale(1.18) rotate(-2deg);
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate3d(-2%, -1%, 0) scale(1.05) rotate(1deg);
+    opacity: 0.45;
+  }
+}
+
+@keyframes aurora-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .aurora-ribbon-top,
+  .aurora-ribbon-bottom,
+  .aurora-mesh {
+    animation: none;
+  }
+}
+
+/* Legacy aurora-wave kept for backward compat (unused now) */
+.aurora-wave {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  display: none;
+}
+
+/* Slow shimmer used on featured accents */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.14) 50%, transparent 65%);
+  background-size: 200% 100%;
+  animation: shimmer 2.4s ease-in-out infinite;
+}
+
+/* Fade-in-up entrance */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up { animation: fade-in-up 0.5s ease-out both; }
+
+/* Marquee for skills ticker */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track { animation: marquee 40s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
