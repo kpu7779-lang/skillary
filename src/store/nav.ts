@@ -2,10 +2,7 @@
 
 import { create } from "zustand";
 
-export type View =
-  | { name: "home" }
-  | { name: "detail"; slug: string }
-  | { name: "upload" };
+export type View = { name: "home" } | { name: "upload" };
 
 interface NavState {
   view: View;
@@ -16,7 +13,6 @@ interface NavState {
   /** Skill id pending install (drives the install modal) */
   installSkillSlug: string | null;
   goHome: () => void;
-  goDetail: (slug: string) => void;
   goUpload: () => void;
   setQuery: (q: string) => void;
   setCategory: (c: string | null) => void;
@@ -31,10 +27,6 @@ export const useNav = create<NavState>((set) => ({
   installSkillSlug: null,
   goHome: () => {
     set({ view: { name: "home" } });
-    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
-  },
-  goDetail: (slug) => {
-    set({ view: { name: "detail", slug } });
     if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
   },
   goUpload: () => {

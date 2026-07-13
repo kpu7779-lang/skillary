@@ -1161,9 +1161,234 @@ npx skillary install design-tokens-to-tailwind
       after: "跟 AI 聊天解闷，还能问生活问题，心情好多了。",
     },
   },
+
+  // ==================== 精选 Skill（首页翻转卡片）====================
+  {
+    id: "17",
+    slug: "research-paper",
+    title: "科研文献拆解与研究助手",
+    tagline: "总结论文、提取方法、整理研究缺口、生成阅读笔记。",
+    description:
+      "面向科研人员与研究生，自动拆解论文结构，提炼方法与创新点，标注研究空白，并输出可复用的阅读笔记与综述提纲。",
+    author: "学术工坊",
+    authorAvatarColor: G.indigo,
+    category: "learning",
+    audience: "研究生 · 科研人员",
+    tags: ["论文", "科研", "文献", "综述"],
+    version: "1.2.0",
+    updatedAt: "2026-07-12",
+    platforms: ["claude-code", "glm", "kimi"],
+    price: 29,
+    downloads: 8600,
+    favorites: 2100,
+    rating: 4.8,
+    reviewsCount: 156,
+    featured: true,
+    trending: true,
+    isNew: true,
+    accent: G.indigo,
+    readme: `# 科研文献拆解与研究助手\n\n上传或粘贴论文，自动输出结构化阅读笔记与研究缺口分析。`,
+    installCommands: {
+      "claude-code": "claude skill add research-paper",
+      glm: "glm skill add research-paper",
+      kimi: "kimi skill add research-paper",
+    },
+    changelog: [{ version: "1.2.0", date: "2026-07-12", notes: ["新增研究缺口自动标注"] }],
+    reviews: [
+      {
+        author: "博士生小林",
+        avatarColor: G.purple,
+        rating: 5,
+        date: "2026-07-10",
+        comment: "读英文论文快了很多，笔记格式直接能放进组会汇报。",
+      },
+    ],
+    beforeAfter: {
+      before: "一篇论文读 3 小时，笔记零散难复盘。",
+      after: "30 分钟拿到结构化笔记 + 方法对比 + 研究空白清单。",
+    },
+  },
+  {
+    id: "18",
+    slug: "prd-planner",
+    title: "产品 PRD 与网站策划师",
+    tagline: "梳理需求、输出 PRD、规划信息架构与页面流程。",
+    description:
+      "帮助产品经理与创业者把想法落成可执行的 PRD：用户故事、功能优先级、页面流程与信息架构一页看清。",
+    author: "产品实验室",
+    authorAvatarColor: G.cyan,
+    category: "office",
+    audience: "产品经理 · 创业者",
+    tags: ["PRD", "产品", "策划", "网站"],
+    version: "1.0.3",
+    updatedAt: "2026-07-11",
+    platforms: ["claude-code", "cursor", "qwen"],
+    price: 19,
+    downloads: 11200,
+    favorites: 2800,
+    rating: 4.7,
+    reviewsCount: 198,
+    featured: true,
+    trending: false,
+    isNew: true,
+    accent: G.cyan,
+    readme: `# 产品 PRD 与网站策划师\n\n输入产品想法，输出 PRD 草案与站点结构。`,
+    installCommands: {
+      "claude-code": "claude skill add prd-planner",
+      cursor: "cursor skill add prd-planner",
+      qwen: "qwen skill add prd-planner",
+    },
+    changelog: [{ version: "1.0.3", date: "2026-07-11", notes: ["新增页面流程图输出"] }],
+    reviews: [
+      {
+        author: "独立开发者阿杰",
+        avatarColor: G.sky,
+        rating: 5,
+        date: "2026-07-08",
+        comment: "从脑暴到 PRD 只要一轮对话，省了我两天写文档的时间。",
+      },
+    ],
+    beforeAfter: {
+      before: "需求散落在聊天记录里，开发无从下手。",
+      after: "一份 PRD + 页面清单，团队当天就能开工。",
+    },
+  },
+  {
+    id: "19",
+    slug: "study-coach",
+    title: "个性化学习计划教练",
+    tagline: "按目标、水平和时间生成学习计划与练习，因材施教。",
+    description:
+      "根据你的学习目标、当前水平与可用时间，生成周计划、每日任务与练习反馈，适合备考与自学。",
+    author: "学伴 AI",
+    authorAvatarColor: G.emerald,
+    category: "learning",
+    audience: "学生 · 自学者",
+    tags: ["学习", "计划", "教练", "备考"],
+    version: "1.1.0",
+    updatedAt: "2026-07-09",
+    platforms: ["kimi", "glm", "qwen"],
+    price: 0,
+    downloads: 24500,
+    favorites: 6100,
+    rating: 4.9,
+    reviewsCount: 412,
+    featured: true,
+    trending: true,
+    isNew: false,
+    accent: G.emerald,
+    readme: `# 个性化学习计划教练\n\n告诉 AI 你的目标与时间，获得可执行的学习路线。`,
+    installCommands: {
+      kimi: "kimi skill add study-coach",
+      glm: "glm skill add study-coach",
+      qwen: "qwen skill add study-coach",
+    },
+    changelog: [{ version: "1.1.0", date: "2026-07-09", notes: ["支持多科目并行计划"] }],
+    reviews: [
+      {
+        author: "高三学生",
+        avatarColor: G.amber,
+        rating: 5,
+        date: "2026-07-07",
+        comment: "每天的任务清单很清晰，知道先学什么后学什么。",
+      },
+    ],
+    beforeAfter: {
+      before: "学习计划靠感觉，经常三天打鱼两天晒网。",
+      after: "有周目标 + 日复盘，坚持了两周效率明显提升。",
+    },
+  },
+  {
+    id: "20",
+    slug: "jd-resume",
+    title: "招聘 JD 与简历匹配助手",
+    tagline: "撰写岗位 JD、解析简历亮点，匹配人选与岗位需求。",
+    description:
+      "HR 与求职者双向赋能：快速生成岗位 JD、解析简历亮点与缺口，并给出匹配度分析与面试追问建议。",
+    author: "职场加速器",
+    authorAvatarColor: G.rose,
+    category: "office",
+    audience: "HR · 求职者",
+    tags: ["招聘", "简历", "JD", "面试"],
+    version: "1.0.1",
+    updatedAt: "2026-07-08",
+    platforms: ["claude-code", "kimi", "qwen"],
+    price: 15,
+    downloads: 9800,
+    favorites: 1900,
+    rating: 4.6,
+    reviewsCount: 134,
+    featured: true,
+    trending: false,
+    isNew: true,
+    accent: G.rose,
+    readme: `# 招聘 JD 与简历匹配助手\n\n输入岗位或简历，获得匹配分析与优化建议。`,
+    installCommands: {
+      "claude-code": "claude skill add jd-resume",
+      kimi: "kimi skill add jd-resume",
+      qwen: "qwen skill add jd-resume",
+    },
+    changelog: [{ version: "1.0.1", date: "2026-07-08", notes: ["新增匹配度评分"] }],
+    reviews: [
+      {
+        author: "HR 小陈",
+        avatarColor: G.violet,
+        rating: 5,
+        date: "2026-07-06",
+        comment: "筛简历快了一倍，匹配理由写得很清楚。",
+      },
+    ],
+    beforeAfter: {
+      before: "人工比对 JD 与简历，一份要 15 分钟。",
+      after: "批量上传后 2 分钟出匹配排序与追问清单。",
+    },
+  },
 ];
 
 /* ===================== Selectors ===================== */
+
+export function searchSkills({
+  query = "",
+  type = "all",
+  sort = "popular",
+  category = null as string | null,
+}: {
+  query?: string;
+  type?: "all" | "free" | "paid";
+  sort?: "popular" | "newest" | "rating";
+  category?: string | null;
+} = {}) {
+  const q = query.trim().toLowerCase();
+  let list = [...SKILLS];
+
+  if (q) {
+    list = list.filter(
+      (s) =>
+        s.title.toLowerCase().includes(q) ||
+        s.tagline.toLowerCase().includes(q) ||
+        s.description.toLowerCase().includes(q) ||
+        s.tags.some((t) => t.toLowerCase().includes(q)) ||
+        CATEGORY_META[s.category]?.label.toLowerCase().includes(q)
+    );
+  }
+
+  if (type === "free") list = list.filter((s) => s.price === 0);
+  if (type === "paid") list = list.filter((s) => s.price > 0);
+  if (category) list = list.filter((s) => s.category === category);
+
+  switch (sort) {
+    case "newest":
+      list.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
+      break;
+    case "rating":
+      list.sort((a, b) => b.rating - a.rating);
+      break;
+    default:
+      list.sort((a, b) => b.downloads - a.downloads);
+  }
+
+  return list;
+}
 
 export const getFeaturedSkills = () => SKILLS.filter((s) => s.featured);
 export const getTrendingSkills = () => SKILLS.filter((s) => s.trending);

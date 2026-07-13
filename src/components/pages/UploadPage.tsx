@@ -15,8 +15,10 @@ import {
   Code2,
 } from "lucide-react";
 import { useMemo, useState } from "react";
+import { useSession } from "next-auth/react";
 import { CATEGORY_META, PLATFORM_META, type Platform, type SkillCategory } from "@/lib/skills-data";
 import { useNav } from "@/store/nav";
+import { useAuthUI } from "@/store/auth-ui";
 import { PlatformBadge } from "@/components/site/PlatformBadge";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -25,7 +27,10 @@ const ALL_PLATFORMS: Platform[] = ["claude-code", "cursor", "codex", "qwen", "gl
 const ALL_CATEGORIES: SkillCategory[] = ["coding", "design", "writing", "learning", "data", "lifestyle", "office", "agent"];
 
 export function UploadPage() {
+  const { data: session } = useSession();
   const { goHome } = useNav();
+  const openAuth = useAuthUI((s) => s.openAuth);
+  const [submitting, setSubmitting] = useState(false);
   const [title, setTitle] = useState("");
   const [tagline, setTagline] = useState("");
   const [description, setDescription] = useState("");
@@ -58,13 +63,41 @@ export function UploadPage() {
 
   const canPublish = title.trim() && tagline.trim() && platforms.length > 0 && installCmd.trim();
 
-  const handlePublish = () => {
+  const handlePublish = async () => {
+    if (!session?.user) {
+      toast.error("请先登录后再发布技能");
+      openAuth("login");
+      return;
+    }
     if (!canPublish) {
       toast.error("请填写必填字段");
       return;
     }
-    toast.success("技能已发布！（演示）");
-    setTimeout(() => goHome(), 800);
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/skills/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: title.trim(),
+          tagline: tagline.trim(),
+          description: description.trim() || tagline.trim(),
+          category,
+          price: Number(price) || 0,
+        }),
+      });
+      const json = await res.json();
+      if (!json.ok) {
+        toast.error(json.error ?? "提交失败");
+        return;
+      }
+      toast.success(json.data?.message ?? "提交成功");
+      setTimeout(() => goHome(), 800);
+    } catch {
+      toast.error("网络错误，请重试");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -85,6 +118,14 @@ export function UploadPage() {
         <p className="mt-2 text-[14px] text-white/55 max-w-xl">
           填写基本信息，我们自动生成安装命令、版本管理和展示页面。
         </p>
+        {!session?.user && (
+          <div className="mt-4 inline-flex flex-wrap items-center gap-3 rounded-xl border border-amber-400/20 bg-amber-500/[0.06] px-4 py-3">
+            <p className="text-[13px] text-amber-200/90">发布技能需要先登录</p>
+            <button type="button" onClick={() => openAuth("login")} className="btn-primary text-[12px] px-3 py-1.5">
+              立即登录
+            </button>
+          </div>
+        )}
       </motion.div>
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
@@ -278,15 +319,15 @@ export function UploadPage() {
               </button>
               <button
                 onClick={handlePublish}
-                disabled={!canPublish}
+                disabled={!canPublish || submitting}
                 className={cn(
                   "inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-[13px] font-medium transition",
-                  canPublish
+                  canPublish && !submitting
                     ? "brand-gradient-bg text-white hover:brightness-110"
                     : "bg-white/[0.06] text-white/40 cursor-not-allowed"
                 )}
               >
-                <Send className="h-4 w-4" /> 发布技能
+                <Send className="h-4 w-4" /> {submitting ? "提交中…" : "发布技能"}
               </button>
             </div>
           </div>

@@ -15,17 +15,17 @@ import { PlatformBadge } from "./PlatformBadge";
 import { useNav } from "@/store/nav";
 
 export function SkillCard({ skill, index = 0 }: { skill: Skill; index?: number }) {
-  const goDetail = useNav((s) => s.goDetail);
+  const openInstall = useNav((s) => s.openInstall);
 
   return (
     <motion.button
       type="button"
-      onClick={() => goDetail(skill.slug)}
+      onClick={() => openInstall(skill.slug)}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: Math.min(index * 0.04, 0.4), ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -3 }}
-      className="group relative w-full text-left glass-card glass-card-hover rounded-2xl p-5 flex flex-col gap-4 overflow-hidden"
+      className="group relative w-full text-left glass-card glass-card-hover rounded-xl sm:rounded-2xl p-4 sm:p-5 flex flex-col gap-3 sm:gap-4 overflow-hidden border border-white/[0.06] hover:border-white/[0.12]"
     >
       {/* Accent glow on hover */}
       <div

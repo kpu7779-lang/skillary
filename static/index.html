@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skillary — AI 技能市场，一键安装即用</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/dynamic.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: Inter, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #0f0f12;
+      color: #f5f5f7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    ::selection { background: rgba(124, 92, 255, 0.35); color: #fff; }
+
+    /* ===== Stitch Dynamic Background (娓呮櫚鐗? ===== */
+    .bg-wrap { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+    .stitch-base {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 90% 55% at 50% -8%, rgba(90,48,180,.38), transparent 58%),
+        radial-gradient(ellipse 50% 45% at 0% 50%, rgba(45,212,191,.12), transparent 58%),
+        radial-gradient(ellipse 45% 45% at 100% 55%, rgba(168,85,247,.1), transparent 58%),
+        #050508;
+    }
+    .stitch-spotlight {
+      position: absolute; top: 6%; left: 50%; width: 58vw; max-width: 720px; height: 42vh;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse 100% 100% at 50% 0%, rgba(124,92,255,.14) 0%, rgba(124,92,255,.04) 42%, transparent 68%);
+      animation: spotlightPulse 12s ease-in-out infinite alternate;
+    }
+    .stitch-aurora { position: absolute; border-radius: 50%; filter: blur(32px); }
+    .stitch-aurora-a {
+      top: -15%; left: 6%; width: 62vw; height: 62vw; max-width: 720px;
+      background: radial-gradient(circle, rgba(124,92,255,.42) 0%, rgba(124,92,255,.1) 38%, transparent 58%);
+      animation: driftA 14s ease-in-out infinite alternate;
+    }
+    .stitch-aurora-b {
+      top: 18%; right: -12%; width: 54vw; height: 54vw; max-width: 620px;
+      background: radial-gradient(circle, rgba(45,212,191,.32) 0%, rgba(45,212,191,.08) 40%, transparent 60%);
+      animation: driftB 18s ease-in-out infinite alternate;
+    }
+    .stitch-aurora-c {
+      bottom: -22%; left: 22%; width: 68vw; height: 42vw; max-width: 800px;
+      background: radial-gradient(ellipse, rgba(168,85,247,.28) 0%, rgba(168,85,247,.06) 42%, transparent 62%);
+      animation: driftC 16s ease-in-out infinite alternate;
+    }
+    .stitch-aurora-d {
+      top: 42%; left: 38%; width: 38vw; height: 38vw; max-width: 420px;
+      background: radial-gradient(circle, rgba(91,124,255,.22) 0%, rgba(91,124,255,.05) 45%, transparent 65%);
+      animation: driftD 20s ease-in-out infinite alternate;
+    }
+    .stitch-aurora-e {
+      bottom: 8%; right: 28%; width: 32vw; height: 32vw; max-width: 380px;
+      background: radial-gradient(circle, rgba(236,72,153,.18) 0%, rgba(236,72,153,.04) 48%, transparent 68%);
+      animation: driftE 19s ease-in-out infinite alternate-reverse;
+    }
+    .stitch-beam { position: absolute; width: 1px; height: 140%; top: -20%; opacity: .38; }
+    .stitch-beam-left {
+      left: 18%;
+      background: linear-gradient(180deg, transparent, rgba(124,92,255,.45) 42%, rgba(45,212,191,.2) 62%, transparent);
+      animation: beamDrift 12s ease-in-out infinite alternate;
+    }
+    .stitch-beam-center {
+      left: 50%; width: 1px;
+      background: linear-gradient(180deg, transparent, rgba(255,255,255,.12) 38%, rgba(124,92,255,.32) 55%, transparent 78%);
+      animation: beamDriftCenter 10s ease-in-out infinite alternate; opacity: .42;
+    }
+    .stitch-beam-right {
+      right: 14%;
+      background: linear-gradient(180deg, transparent, rgba(168,85,247,.4) 48%, rgba(124,92,255,.22) 68%, transparent);
+      animation: beamDrift 14s ease-in-out infinite alternate-reverse;
+    }
+    .stitch-horizon {
+      position: absolute; top: 38%; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent 8%, rgba(124,92,255,.28) 30%, rgba(45,212,191,.35) 50%, rgba(124,92,255,.28) 70%, transparent 92%);
+      box-shadow: 0 0 10px 1px rgba(124,92,255,.12);
+      animation: horizonPulse 8s ease-in-out infinite alternate;
+    }
+    .stitch-mesh-spin {
+      position: absolute; inset: -35%;
+      background: conic-gradient(from 180deg at 50% 45%, transparent, rgba(124,92,255,.14) 48deg, transparent 96deg, rgba(45,212,191,.11) 168deg, transparent 216deg, rgba(91,124,255,.12) 288deg, transparent);
+      animation: spin 60s linear infinite; opacity: .42;
+    }
+    .stitch-pgrid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(124,92,255,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(124,92,255,.07) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: linear-gradient(180deg, #000 0%, #000 40%, transparent 85%);
+      transform: perspective(520px) rotateX(62deg) scale(1.65);
+      transform-origin: 50% 0%;
+      animation: gridScroll 22s linear infinite;
+      opacity: .48;
+    }
+    #mesh-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .58; mix-blend-mode: screen; }
+    .stitch-sweep {
+      position: absolute; inset: -50% -20%;
+      background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.04) 47%, rgba(200,185,255,.08) 50%, rgba(255,255,255,.04) 53%, transparent 60%);
+      animation: sweep 10s ease-in-out infinite;
+    }
+    .stitch-sweep-2 {
+      animation: sweep2 13s ease-in-out infinite;
+      animation-delay: -4s; opacity: .45;
+      background: linear-gradient(75deg, transparent 38%, rgba(45,212,191,.03) 48%, rgba(124,92,255,.06) 50%, transparent 58%);
+    }
+    .bg-dots {
+      position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,.12) 1px, transparent 1px);
+      background-size: 20px 20px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 36%, #000 22%, transparent 80%);
+    }
+    .bg-vignette {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 95% 80% at 50% 30%, transparent 50%, rgba(0,0,0,.38) 100%);
+    }
+    #mouse-glow {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      mix-blend-mode: screen; transition: background .06s linear;
+    }
+    @keyframes driftA { 0%{transform:translate3d(0,0,0) scale(1);opacity:.65} 50%{transform:translate3d(6%,5%,0) scale(1.08);opacity:.85} 100%{transform:translate3d(-4%,3%,0) scale(1.02);opacity:.6} }
+    @keyframes driftB { 0%{transform:translate3d(0,0,0) scale(1.02);opacity:.5} 50%{transform:translate3d(-5%,6%,0) scale(1.1);opacity:.72} 100%{transform:translate3d(4%,-3%,0) scale(1);opacity:.48} }
+    @keyframes driftC { 0%{transform:translate3d(0,0,0) scale(1);opacity:.45} 50%{transform:translate3d(-5%,-5%,0) scale(1.08);opacity:.62} 100%{transform:translate3d(5%,3%,0) scale(1.03);opacity:.4} }
+    @keyframes driftD { 0%{transform:translate3d(0,0,0) scale(.98);opacity:.38} 50%{transform:translate3d(4%,-4%,0) scale(1.06);opacity:.55} 100%{transform:translate3d(-3%,3%,0) scale(1);opacity:.35} }
+    @keyframes driftE { 0%{transform:translate3d(0,0,0) scale(1);opacity:.28} 50%{transform:translate3d(-6%,5%,0) scale(1.08);opacity:.45} 100%{transform:translate3d(5%,-4%,0) scale(1.02);opacity:.25} }
+    @keyframes spotlightPulse { 0%{opacity:.7;transform:translateX(-50%) scale(1)} 100%{opacity:1;transform:translateX(-50%) scale(1.03)} }
+    @keyframes horizonPulse { 0%{opacity:.35;transform:scaleX(.96)} 100%{opacity:.55;transform:scaleX(1.02)} }
+    @keyframes beamDrift { 0%{transform:translateX(0) scaleY(1);opacity:.28} 50%{transform:translateX(20px) scaleY(1.04);opacity:.48} 100%{transform:translateX(-10px) scaleY(.98);opacity:.32} }
+    @keyframes beamDriftCenter { 0%{transform:translateX(-50%) scaleY(1);opacity:.32} 50%{transform:translateX(calc(-50% + 12px)) scaleY(1.04);opacity:.5} 100%{transform:translateX(calc(-50% - 6px)) scaleY(.98);opacity:.35} }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes gridScroll { to { background-position: 0 52px, 0 52px; } }
+    @keyframes sweep { 0%,100%{transform:translateX(-35%);opacity:0} 6%{opacity:1} 42%{transform:translateX(35%);opacity:1} 52%{opacity:0} }
+    @keyframes sweep2 { 0%,100%{transform:translateX(35%);opacity:0} 10%{opacity:.8} 48%{transform:translateX(-35%);opacity:.8} 58%{opacity:0} }
+    @media (prefers-reduced-motion: reduce) {
+      .stitch-spotlight, .stitch-horizon, .stitch-aurora, .stitch-beam, .stitch-mesh-spin, .stitch-pgrid, .stitch-sweep { animation: none; }
+      #mesh-canvas { opacity: .35; }
+    }
+
+    /* ===== Layout ===== */
+    .page { position: relative; z-index: 2; min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* Header */
+    header {
+      position: sticky; top: 0; z-index: 40;
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      background: rgba(15,15,18,.6);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .header-inner {
+      max-width: 80rem; margin: 0 auto; height: 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.25rem;
+    }
+    @media (min-width: 640px) { .header-inner { padding: 0 2rem; } }
+    .logo-btn {
+      display: flex; align-items: center; gap: .625rem;
+      background: none; border: none; cursor: pointer; color: inherit;
+    }
+    .logo-icon {
+      width: 2rem; height: 2rem; border-radius: .75rem;
+      background: linear-gradient(135deg, #8b5cf6, #6366f1, #22d3ee);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 24px rgba(139,92,246,.25);
+    }
+    .logo-text { font-size: 15px; font-weight: 600; letter-spacing: -.02em; }
+    .chip {
+      display: none; padding: 2px 6px; border-radius: 999px; font-size: 9px;
+      text-transform: uppercase; letter-spacing: .05em; font-weight: 500;
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+      color: rgba(255,255,255,.72);
+    }
+    @media (min-width: 640px) { .chip { display: inline; } }
+    nav.desktop { display: none; position: absolute; left: 50%; transform: translateX(-50%); gap: .25rem; }
+    @media (min-width: 768px) { nav.desktop { display: flex; } }
+    .nav-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 12px; border-radius: 8px; border: none; cursor: pointer;
+      font-size: 13px; background: transparent; color: rgba(255,255,255,.6);
+      transition: color .15s, background .15s;
+    }
+    .nav-btn:hover, .nav-btn.active { color: #fff; background: rgba(255,255,255,.1); }
+    .nav-btn svg { width: 14px; height: 14px; }
+    .cta-btn {
+      display: none; padding: 6px 14px; border-radius: 8px; border: none;
+      background: #fff; color: #000; font-size: 13px; font-weight: 500; cursor: pointer;
+    }
+    @media (min-width: 768px) { .cta-btn { display: inline-block; } }
+    .menu-toggle {
+      display: flex; width: 36px; height: 36px; align-items: center; justify-content: center;
+      border-radius: 8px; border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04); color: #fff; cursor: pointer;
+    }
+    @media (min-width: 768px) { .menu-toggle { display: none; } }
+    .mobile-menu {
+      display: none; margin: 0 .75rem .75rem; padding: .75rem;
+      border-radius: 1rem; background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
+      border: 1px solid rgba(255,255,255,.08); backdrop-filter: blur(20px);
+    }
+    .mobile-menu.open { display: flex; flex-direction: column; gap: 4px; }
+    .mobile-menu button {
+      text-align: left; padding: 8px 12px; border-radius: 8px; border: none;
+      background: transparent; color: rgba(255,255,255,.7); font-size: 14px; cursor: pointer;
+    }
+    .mobile-menu button.active { background: rgba(255,255,255,.1); color: #fff; }
+    .mobile-menu .cta-full {
+      margin-top: 4px; background: #fff; color: #000; font-weight: 500; text-align: center;
+    }
+
+    /* Hero 鈥?Stitch 甯冨眬锛氭爣棰樺眳涓亸涓婏紝杈撳叆妗嗗簳閮ㄥ榻?*/
+    main { flex: 1; }
+    .hero {
+      width: 100%; margin: 0 auto; padding: 0;
+      min-height: calc(100dvh - 4rem);
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center;
+    }
+    .hero-copy {
+      flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      width: 100%; max-width: 48rem; padding: 0 1.25rem;
+    }
+    @media (min-width: 640px) { .hero-copy { padding-left: 1.5rem; padding-right: 1.5rem; } }
+    .search-dock {
+      flex-shrink: 0; width: 100%; max-width: 920px;
+      padding: 0 1rem 0;
+    }
+    @media (min-width: 640px) { .search-dock { padding-left: 1.25rem; padding-right: 1.25rem; } }
+    .brand-title {
+      margin-top: 0; font-size: 48px; font-weight: 600; line-height: 1.06; letter-spacing: -.03em;
+      background: linear-gradient(110deg, #fff 0%, #fff 35%, #c8b9ff 55%, #9ec5ff 75%, #7fe7d7 100%);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    @media (min-width: 640px) { .brand-title { font-size: 64px; } }
+    .hero-sub {
+      margin-top: 1rem; font-size: 20px; color: rgba(255,255,255,.5);
+      max-width: 42rem; line-height: 1.65;
+    }
+    @media (min-width: 640px) { .hero-sub { font-size: 26px; } }
+
+    /* Search panel 鈥?涓婃柟鐣ョ揣鍑戯紝搴曡竟璐存 */
+    .search-panel {
+      width: 100%; border-radius: 32px 32px 0 0; overflow: hidden;
+      background: linear-gradient(180deg, #12121a 0%, #18162c 55%, #141820 100%);
+      border: 1px solid rgba(255,255,255,.08);
+      border-bottom: none;
+      box-shadow: 0 4px 24px rgba(0,0,0,.45), 0 1px 3px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .search-panel:focus-within {
+      border-color: rgba(255,255,255,.14);
+      box-shadow: 0 8px 32px rgba(0,0,0,.5), 0 0 0 1px rgba(124,92,255,.12), inset 0 1px 0 rgba(255,255,255,.06);
+    }
+    .search-input-wrap { padding: 1.25rem 1.75rem .75rem; }
+    @media (min-width: 640px) { .search-input-wrap { padding: 1.5rem 2rem .75rem; } }
+    .search-input {
+      width: 100%; min-height: 112px; max-height: 260px; border: none; outline: none;
+      background: transparent; resize: none; color: #fff;
+      font-size: 22px; line-height: 1.5; font-family: inherit;
+    }
+    @media (min-width: 640px) { .search-input { font-size: 26px; } }
+    .search-input::placeholder { color: rgba(255,255,255,.28); }
+    .search-toolbar {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem;
+      padding: 1rem 1.5rem; border-top: 1px solid rgba(255,255,255,.05);
+    }
+    @media (min-width: 640px) { .search-toolbar { padding: 1.25rem 1.75rem; } }
+    .type-toggle {
+      display: inline-flex; padding: 2px; border-radius: 8px;
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.05);
+    }
+    .type-toggle button {
+      padding: 10px 16px; border-radius: 8px; border: none; cursor: pointer;
+      font-size: 14px; font-weight: 500; background: transparent; color: rgba(255,255,255,.45);
+      transition: all .15s;
+    }
+    .type-toggle button.active {
+      background: rgba(255,255,255,.1); color: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    }
+    .toolbar-right { display: flex; align-items: center; gap: 6px; }
+    .sort-select {
+      appearance: none; height: 44px; padding: 0 32px 0 16px; border-radius: 8px;
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.06);
+      color: rgba(255,255,255,.7); font-size: 14px; cursor: pointer; outline: none;
+    }
+    .sort-select option { background: #161420; }
+    .search-go {
+      width: 44px; height: 44px; border-radius: 8px; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      transition: transform .15s, background .15s;
+    }
+    .search-go.enabled { background: #fff; color: #000; box-shadow: 0 4px 16px rgba(255,255,255,.1); }
+    .search-go.disabled { background: rgba(255,255,255,.06); color: rgba(255,255,255,.25); cursor: not-allowed; }
+
+    /* Featured Skills 鈥?绗簩灞忕炕杞崱鐗?*/
+    .featured-skills {
+      position: relative; min-height: 92vh; padding: 4rem 0 6rem;
+      overflow: hidden; scroll-snap-align: start; scroll-snap-stop: always;
+    }
+    @media (min-width: 640px) { .featured-skills { padding: 6rem 0; } }
+    .featured-inner { max-width: 72rem; margin: 0 auto; padding: 0 1.25rem; }
+    @media (min-width: 640px) { .featured-inner { padding: 0 2rem; } }
+    .featured-beam {
+      position: absolute; top: 0; left: 0; right: 0; height: 2px; z-index: 2;
+      background: linear-gradient(90deg, transparent, rgba(124,92,255,.9) 18%, rgba(45,212,191,1) 50%, rgba(236,72,153,.85) 82%, transparent);
+      box-shadow: 0 0 24px rgba(124,92,255,.55), 0 0 48px rgba(45,212,191,.35);
+      transform-origin: left; transform: scaleX(0);
+      transition: transform 1s cubic-bezier(.22,1,.36,1);
+    }
+    .featured-skills.in-view .featured-beam { transform: scaleX(1); }
+    .featured-curtain {
+      position: absolute; inset: 0 auto auto 0; right: 0; height: 8rem; pointer-events: none;
+      background: linear-gradient(180deg, rgba(124,92,255,.14), rgba(45,212,191,.06) 35%, transparent);
+    }
+    .featured-glow {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 45% at 20% 20%, rgba(124,92,255,.12), transparent 55%),
+        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(45,212,191,.08), transparent 55%),
+        radial-gradient(ellipse 50% 35% at 50% 90%, rgba(236,72,153,.06), transparent 50%);
+    }
+    .featured-title {
+      text-align: center; font-size: 28px; font-weight: 600;
+      letter-spacing: -.02em;
+    }
+    @media (min-width: 640px) { .featured-title { font-size: 38px; } }
+    .featured-sub {
+      text-align: center; margin-top: 12px; font-size: 14px; color: rgba(255,255,255,.5);
+      max-width: 36rem; margin-left: auto; margin-right: auto;
+    }
+    @media (min-width: 640px) { .featured-sub { font-size: 16px; } }
+    .featured-filters {
+      margin-top: 2.5rem; display: flex; flex-wrap: wrap; align-items: center;
+      justify-content: center; gap: .5rem;
+    }
+    .filter-pill {
+      position: relative; border-radius: 12px; border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03); padding: 10px 16px; cursor: pointer;
+      text-align: left; color: rgba(255,255,255,.55); transition: all .3s;
+    }
+    .filter-pill:hover { border-color: rgba(255,255,255,.16); color: rgba(255,255,255,.8); }
+    .filter-pill.active {
+      border-color: rgba(255,255,255,.25); background: rgba(255,255,255,.12);
+      color: #fff; box-shadow: 0 8px 24px rgba(124,92,255,.1);
+    }
+    .filter-pill.all { margin-left: 4px; }
+    @media (min-width: 640px) { .filter-pill.all { margin-left: 8px; } }
+    .filter-pill .label { font-size: 13px; font-weight: 500; display: block; }
+    .filter-pill .hint { font-size: 10px; color: rgba(255,255,255,.35); margin-top: 2px; display: block; }
+    .filter-badge {
+      position: absolute; top: -4px; right: -4px; min-width: 20px; height: 20px;
+      border-radius: 999px; background: #8b5cf6; color: #fff; font-size: 10px;
+      font-weight: 600; display: flex; align-items: center; justify-content: center; padding: 0 4px;
+    }
+    .featured-pairs { margin-top: 3rem; }
+    .pair-row { margin-bottom: 1.5rem; }
+    @media (min-width: 640px) { .pair-row { margin-bottom: 2rem; } }
+    .pair-label {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 12px; padding: 0 4px;
+    }
+    .pair-label span {
+      font-size: 11px; font-weight: 500; text-transform: uppercase;
+      letter-spacing: .08em; color: rgba(255,255,255,.35);
+    }
+    .pair-label .line {
+      flex: 1; height: 1px;
+      background: linear-gradient(90deg, rgba(255,255,255,.1), rgba(167,139,250,.3), transparent);
+    }
+    .pair-grid {
+      display: grid; grid-template-columns: 1fr; gap: 1rem;
+    }
+    @media (min-width: 640px) { .pair-grid { grid-template-columns: 1fr 1fr; gap: 1.25rem; } }
+    .flip-card { perspective: 1200px; height: 220px; }
+    @media (min-width: 640px) { .flip-card { height: 240px; } }
+    .flip-inner {
+      position: relative; width: 100%; height: 100%; display: block;
+      border: none; padding: 0; cursor: pointer; text-align: left;
+      transform-style: preserve-3d;
+      transition: transform .65s cubic-bezier(.4,.2,.2,1);
+      background: none; color: inherit; font-family: inherit;
+    }
+    .flip-inner.is-flipped { transform: rotateY(180deg); }
+    .flip-face {
+      position: absolute; inset: 0; backface-visibility: hidden;
+      -webkit-backface-visibility: hidden; border-radius: 1rem;
+      display: flex; flex-direction: column; justify-content: space-between;
+      overflow: hidden;
+    }
+    .flip-front {
+      padding: 1.25rem 1.5rem;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
+      border: 1px solid rgba(255,255,255,.1);
+      backdrop-filter: blur(20px);
+    }
+    @media (min-width: 640px) { .flip-front { padding: 1.5rem; } }
+    .flip-front .glow-orb {
+      position: absolute; top: -2rem; right: -2rem; width: 8rem; height: 8rem;
+      border-radius: 50%; filter: blur(48px); pointer-events: none;
+    }
+    .cat-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      border-radius: 999px; border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.06); padding: 4px 10px;
+      font-size: 10px; font-weight: 500; text-transform: uppercase;
+      letter-spacing: .06em; color: rgba(255,255,255,.55);
+    }
+    .cat-badge svg { width: 12px; height: 12px; color: #c4b5fd; }
+    .flip-front .sub-cat { margin-top: 12px; font-size: 11px; color: rgba(255,255,255,.4); }
+    .flip-front h3 {
+      margin-top: 8px; font-size: 17px; font-weight: 600; line-height: 1.35; color: #fff;
+    }
+    @media (min-width: 640px) { .flip-front h3 { font-size: 19px; } }
+    .flip-front .foot {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .accent-bar { width: 40px; height: 8px; border-radius: 999px; }
+    .flip-hint { font-size: 11px; color: rgba(255,255,255,.35); display: flex; align-items: center; gap: 4px; }
+    .flip-hint svg { width: 12px; height: 12px; }
+    .flip-back {
+      transform: rotateY(180deg); padding: 1.25rem 1.5rem;
+      border: 1px solid rgba(255,255,255,.12); color: #fff;
+    }
+    @media (min-width: 640px) { .flip-back { padding: 1.5rem; } }
+    .flip-back .ability-label {
+      font-size: 10px; font-weight: 500; text-transform: uppercase;
+      letter-spacing: .08em; color: rgba(255,255,255,.7);
+    }
+    .flip-back .ability-text {
+      margin-top: 12px; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.95);
+    }
+    @media (min-width: 640px) { .flip-back .ability-text { font-size: 15px; } }
+    .flip-back .foot {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 12px; color: rgba(255,255,255,.8);
+    }
+    .coming-soon {
+      display: inline-flex; align-items: center; gap: 4px;
+      border-radius: 8px; background: rgba(0,0,0,.2); padding: 4px 10px;
+    }
+    .coming-soon svg { width: 14px; height: 14px; }
+    .view-all-wrap { margin-top: 2.5rem; display: flex; justify-content: center; }
+    .view-all-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      border-radius: 12px; border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06); padding: 12px 20px;
+      font-size: 13px; font-weight: 500; color: rgba(255,255,255,.8);
+      cursor: pointer; transition: background .2s, color .2s;
+    }
+    .view-all-btn:hover { background: rgba(255,255,255,.1); color: #fff; }
+    .view-all-btn svg { width: 16px; height: 16px; }
+    .featured-content {
+      opacity: 0; transform: translateY(48px) scale(.96);
+      transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1);
+    }
+    .featured-skills.in-view .featured-content {
+      opacity: 1; transform: translateY(0) scale(1);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .flip-inner { transition-duration: .01ms; }
+      .featured-content, .featured-beam { transition: none; opacity: 1; transform: none; }
+    }
+
+    html { scroll-snap-type: y proximity; }
+    .hero { scroll-snap-align: start; scroll-snap-stop: always; }
+
+    /* Footer */
+    footer {
+      margin-top: 6rem; border-top: 1px solid rgba(255,255,255,.06);
+      background: rgba(15,15,18,.4); backdrop-filter: blur(20px);
+    }
+    .footer-inner { max-width: 80rem; margin: 0 auto; padding: 3rem 1.25rem; }
+    @media (min-width: 640px) { .footer-inner { padding-left: 2rem; padding-right: 2rem; } }
+    .footer-grid {
+      display: grid; gap: 2.5rem;
+    }
+    @media (min-width: 768px) { .footer-grid { grid-template-columns: 1.5fr 1fr 1fr 1fr; } }
+    .footer-brand p { margin-top: .75rem; font-size: 13px; line-height: 1.6; color: rgba(255,255,255,.5); max-width: 20rem; }
+    .footer-col h4 {
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .08em; color: rgba(255,255,255,.4);
+    }
+    .footer-col ul { margin-top: .75rem; list-style: none; }
+    .footer-col li { margin-bottom: .5rem; }
+    .footer-col a, .footer-col button {
+      font-size: 13px; color: rgba(255,255,255,.6); background: none; border: none;
+      cursor: pointer; padding: 0; text-decoration: none;
+    }
+    .footer-col a:hover, .footer-col button:hover { color: #fff; }
+    .footer-bottom {
+      margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.06);
+      display: flex; flex-direction: column; align-items: center; gap: .75rem;
+      font-size: 12px; color: rgba(255,255,255,.4);
+    }
+    @media (min-width: 640px) {
+      .footer-bottom { flex-direction: row; justify-content: space-between; }
+    }
+    .footer-links { display: flex; gap: 1rem; }
+    .footer-links a { color: rgba(255,255,255,.4); text-decoration: none; }
+    .footer-links a:hover { color: rgba(255,255,255,.7); }
+  </style>
+</head>
+<body>
+  <div class="bg-wrap" aria-hidden="true">
+    <div class="stitch-base"></div>
+    <div class="stitch-spotlight"></div>
+    <div class="stitch-aurora stitch-aurora-a"></div>
+    <div class="stitch-aurora stitch-aurora-b"></div>
+    <div class="stitch-aurora stitch-aurora-c"></div>
+    <div class="stitch-aurora stitch-aurora-d"></div>
+    <div class="stitch-aurora stitch-aurora-e"></div>
+    <div class="stitch-beam stitch-beam-left"></div>
+    <div class="stitch-beam stitch-beam-center"></div>
+    <div class="stitch-beam stitch-beam-right"></div>
+    <div class="stitch-horizon"></div>
+    <div class="stitch-mesh-spin"></div>
+    <div class="stitch-pgrid"></div>
+    <div class="bg-dots"></div>
+    <canvas id="mesh-canvas"></canvas>
+    <div class="stitch-sweep"></div>
+    <div class="stitch-sweep stitch-sweep-2"></div>
+    <div class="bg-vignette"></div>
+  </div>
+  <div id="mouse-glow" aria-hidden="true"></div>
+
+  <div class="page">
+    <header>
+      <div class="header-inner">
+        <button type="button" class="logo-btn">
+          <div class="logo-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+          </div>
+          <span class="logo-text">Skillary</span>
+          <span class="chip">Beta</span>
+        </button>
+        <nav class="desktop">
+          <button type="button" class="nav-btn active" data-nav="home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            探索
+          </button>
+          <button type="button" class="nav-btn" data-nav="upload">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+            发布
+          </button>
+          <button type="button" class="nav-btn" data-nav="home">文档</button>
+        </nav>
+        <div class="header-auth" id="headerAuth"></div>
+        <button type="button" class="cta-btn" data-nav="upload">发布技能</button>
+        <button class="menu-toggle" id="menuBtn" aria-label="菜单">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="mobile-menu" id="mobileMenu">
+        <button type="button" class="active" data-nav="home">探索</button>
+        <button type="button" data-nav="upload">发布</button>
+        <button type="button" class="cta-full" data-nav="upload">发布技能</button>
+      </div>
+    </header>
+
+    <main>
+      <div id="view-home" class="view active">
+      <section class="hero">
+        <div class="hero-copy">
+          <h1 class="brand-title">Skillary</h1>
+          <p class="hero-sub">发现、安装、交付 AI 技能 —— 一键即用，无需配置。</p>
+        </div>
+
+        <div class="search-dock">
+          <div class="search-panel">
+            <div class="search-input-wrap">
+              <textarea id="searchInput" class="search-input" rows="4" placeholder="搜索技能…" spellcheck="false"></textarea>
+              <div id="searchSuggestions" class="search-suggestions" role="listbox"></div>
+            </div>
+            <div class="search-toolbar">
+              <div class="type-toggle" id="typeToggle">
+                <button type="button" class="active" data-type="all">全部</button>
+                <button type="button" data-type="free">免费</button>
+                <button type="button" data-type="paid">付费</button>
+              </div>
+              <div class="toolbar-right">
+                <select class="sort-select" id="sortSelect">
+                  <option value="popular">热门优先</option>
+                  <option value="newest">最新优先</option>
+                  <option value="rating">评分优先</option>
+                </select>
+                <button type="button" id="searchGo" class="search-go disabled" title="搜索">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="featured-skills" id="featuredSkills">
+        <div class="featured-beam" aria-hidden="true"></div>
+        <div class="featured-curtain" aria-hidden="true"></div>
+        <div class="featured-glow" aria-hidden="true"></div>
+        <div class="featured-inner featured-content">
+          <h2 class="featured-title">精选 Skill</h2>
+          <p class="featured-sub">先选方向，再发现能力。点击卡片翻转，查看每个 Skill 的核心能力。</p>
+          <div class="featured-filters" id="featuredFilters"></div>
+          <div class="featured-pairs" id="featuredPairs"></div>
+          <div class="view-all-wrap" id="viewAllWrap" hidden>
+            <button type="button" class="view-all-btn" id="viewAllBtn">
+              查看全部技能
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="search-results" id="searchResultsSection" style="display:none">
+        <div class="search-results-header">
+          <div>
+            <h2 class="search-results-title" id="searchResultsTitle">搜索结果</h2>
+            <p class="search-results-count" id="searchResultsCount"></p>
+          </div>
+          <button type="button" class="clear-search" id="clearSearch">清除搜索</button>
+        </div>
+        <div class="skill-grid" id="searchResultsGrid"></div>
+      </section>
+      </div>
+
+      <div id="view-detail" class="view"></div>
+      <div id="view-upload" class="view"></div>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="logo-btn">
+              <div class="logo-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+              </div>
+              <span class="logo-text">Skillary</span>
+            </div>
+            <p>人人都能用的 AI 技能市场。一键发现、安装、使用 AI 技能，支持 Claude Code、Cursor、通义千问、智谱 GLM、Kimi。</p>
+          </div>
+          <div class="footer-col">
+            <h4>产品</h4>
+            <ul>
+              <li><button type="button" data-nav="home">探索技能</button></li>
+              <li><button type="button" data-nav="upload">发布技能</button></li>
+              <li><button type="button">定价</button></li>
+              <li><button type="button">更新日志</button></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>平台</h4>
+            <ul>
+              <li><button type="button">Claude Code</button></li>
+              <li><button type="button">Cursor</button></li>
+              <li><button type="button">通义千问</button></li>
+              <li><button type="button">智谱 GLM / Kimi</button></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>公司</h4>
+            <ul>
+              <li><button type="button">关于我们</button></li>
+              <li><button type="button">博客</button></li>
+              <li><button type="button">招聘</button></li>
+              <li><button type="button">联系方式</button></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2026 Skillary · 为中国 AI 用户打造</p>
+          <div class="footer-links">
+            <a href="#">隐私政策</a>
+            <a href="#">服务条款</a>
+            <a href="#">安全说明</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div id="installModal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="安装技能">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h3>安装技能</h3>
+        <button type="button" class="modal-close" data-close-modal aria-label="关闭">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="installModalBody"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" data-close-modal>取消</button>
+        <button type="button" class="btn-primary" id="copyInstallCmd">复制命令</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-root" class="toast-root" aria-live="polite"></div>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
